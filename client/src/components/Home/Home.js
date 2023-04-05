@@ -10,10 +10,10 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
-import { getPosts,getPostsBySearch } from "../../actions/posts";
+import {getPostsBySearch } from "../../actions/posts";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 
@@ -34,19 +34,16 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
 
-  useEffect(() => {
-    dispatch(getPosts());
-    console.log("i am called in app");
-  }, [currentId, dispatch]);
+
   const handleKeyDown = (event) => {
-    // console.log(event.keyCode);
+
     if (event.keyCode === 13) {
       searchPost(); 
     }
   };
 const searchPost=()=>{
   if(search.trim()||tags){
-    //dispatch ->fetch search post
+   
     dispatch(getPostsBySearch({search,tags:tags.join(',')}))
     history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`)
   }
@@ -54,20 +51,19 @@ const searchPost=()=>{
     history.push('/')
   }
 }
-  const handleAdd = (tag) => {
-    setTags([...tags, tag]);
-  };
-  const handleDelete = (tagToDelete) => {
-    setTags(tags.filter((tag)=>tag!==tagToDelete))
-  };
+  const handleAdd = (tag) => setTags([...tags, tag]);
+
+  const handleDelete = (tagToDelete) => setTags(tags.filter((tag)=>tag!==tagToDelete))
+  
   return (
     <Grow in>
-      <Container maxWidth="xl">
+      <Container  maxWidth="xl">
         <Grid
           container
           justify="space-between"
+
           alignItems="stretch"
-          spacing={3}
+          spacing={5}
           className={classes.gridContainer}
         >
           <Grid item xs={12} sm={6} md={9}>
@@ -91,7 +87,7 @@ const searchPost=()=>{
                 }}
               />
               <ChipInput
-                style={{ margin: "10px 0 " }}
+                style={{ margin: "10px 0" }}
                 value={tags}
                 onAdd={handleAdd}
                 onDelete={handleDelete}
@@ -102,16 +98,18 @@ const searchPost=()=>{
               onClick={searchPost}
               className={classes.searchButton}
               color='primary'
-              varaint="contained"
-              
+              variant="contained"
               >
                   Search
               </Button>
             </AppBar>
             <Form setCurrentId={setCurrentId} currentId={currentId} />
-            <Paper elevation={6}>
-              <Pagination />
-            </Paper>
+           
+           {(!searchQuery&&!tags.length)&&(<Paper elevation={6} className={classes.pagination}>
+              <Pagination page={page} />
+            </Paper>)}
+           
+            
           </Grid>
         </Grid>
       </Container>

@@ -12,7 +12,6 @@ const store = createStore(reducers,compose(applyMiddleware(thunk)))
 
 ReactDOM.render(
 
-
 <Provider store ={store}>
       <StyledEngineProvider injectFirst>
         <GoogleOAuthProvider clientId='134178700502-58l78mm61a480rara8m8ufpngfu8qlik.apps.googleusercontent.com'>

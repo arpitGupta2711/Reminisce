@@ -11,9 +11,6 @@ import PostDetails from "./components/PostDetails/PostDetails";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
-  
-
-  
   return (
     <BrowserRouter>
     <StyledEngineProvider injectFirst>
@@ -23,7 +20,7 @@ const App = () => {
       <Route path="/" exact component={()=><Redirect to="/posts"/>}/>
       <Route path="/posts" exact component={Home}/>
       <Route path="/posts/search" exact component={Home}/>
-      <Route path="/posts/:id" component={PostDetails}/>
+      <Route path="/posts/:id" component={PostDetails }/>
       <Route path="/auth" exact component={()=>{
         if(user){
           return <Redirect to ='/posts'/>

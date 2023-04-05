@@ -14,8 +14,8 @@ app.use(cors());
 app.use('/posts',postsRoutes)
 app.use('/user',usersRoutes)
 const CONNECTION_URL = process.env.CONNECTION_URL;
-const PORT = process.env.port || 5000;
 
+const PORT = process.env.port ;
 
 mongoose.connect(CONNECTION_URL)
   .then(()=>{

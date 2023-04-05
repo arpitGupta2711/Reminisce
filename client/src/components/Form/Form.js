@@ -4,6 +4,7 @@ import { TextField, Button, Typography, Paper } from "@mui/material";
 
 import FileBase from "react-file-base64";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { createPost, updatePost } from "../../actions/posts";
 const Form = ({ currentId, setCurrentId }) => {
@@ -15,17 +16,17 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
   const post = useSelector((state) =>
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+    currentId ? state.posts.posts.find((p) => p._id === currentId) : null
   );
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'))
 
   useEffect(() => {
     if (post) {
       setPostData(post);
-      // console.log("i am in form");
     }
   }, [post]);
   const handleSubmit = (e) => {
@@ -33,7 +34,7 @@ const Form = ({ currentId, setCurrentId }) => {
     if (currentId) {
       dispatch(updatePost(currentId,{...postData,name:user?.result?.name}));
     } else {
-      dispatch(createPost({...postData,name:user?.result?.name}));
+      dispatch(createPost({...postData,name:user?.result?.name},history));
     }
     clear();
   };
@@ -48,7 +49,7 @@ const Form = ({ currentId, setCurrentId }) => {
   };
   if(!user?.result?.name){
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} >
         <Typography variant="h6" align="center">
           Please sign in to create your own memories and like other's memories
         </Typography>
@@ -57,8 +58,7 @@ const Form = ({ currentId, setCurrentId }) => {
     )
   }
   return (
-    // <StyledEngineProvider injectFirst>
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6}>
       <form
         autoComplete="off"
         noValidate
@@ -68,16 +68,6 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing a memory" : "Creating a Memory"}
         </Typography>
-        {/* <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          value={postData.creator}
-          onChange={(e) =>
-            setPostData({ ...postData, creator: e.target.value })
-          }
-        /> */}
         <TextField
           name="title"
           variant="outlined"
