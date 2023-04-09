@@ -17,6 +17,9 @@ const CONNECTION_URL = process.env.CONNECTION_URL;
 
 const PORT = process.env.port ;
 
+app.get('/',(req,res)=>{
+  res.send('Use /posts to fetch data');
+})
 mongoose.connect(CONNECTION_URL)
   .then(()=>{
     app.listen(PORT,()=>{
@@ -29,6 +32,8 @@ mongoose.connect(CONNECTION_URL)
     console.log(err.message);
 
   })
+
+
 //   mongoose.set('useFindAndModify',false)
 
 
