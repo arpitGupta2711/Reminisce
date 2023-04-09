@@ -22,7 +22,6 @@ export const getPosts = async (req, res) => {
       .sort({ _id: -1 })
       .limit(LIMIT)
       .skip(startIndex);
-    // console.log(postMessages);
     res
       .status(200)
       .json({
