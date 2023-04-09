@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API = axios.create({baseURL:'http://localhost:5000'})
+const API = axios.create({baseURL:'https://reminisce-api.vercel.app'})
 // const url = "http://localhost:5000/posts";
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem('profile')){
